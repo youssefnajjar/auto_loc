@@ -1,4 +1,5 @@
 package tn.esprit.youssefnajjar4cce10.domain;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,6 +9,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+
 @Entity
 @Table(name = "contrat")
 @Getter
@@ -15,6 +17,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Contrat {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idContrat;

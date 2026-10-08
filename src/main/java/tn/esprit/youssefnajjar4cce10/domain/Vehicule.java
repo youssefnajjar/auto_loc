@@ -1,52 +1,58 @@
 package tn.esprit.youssefnajjar4cce10.domain;
 
 import jakarta.persistence.*;
-import lombok.*;
-
-import java.math.BigDecimal;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import java.util.Set;
+import java.util.HashSet;
 import java.util.List;
+import java.util.ArrayList;
+import java.math.BigDecimal;
 
 @Entity
-@Data
+@Table(name = "vehicule")
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class Vehicule {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idVehicule;
 
+    @Column(nullable = false, unique = true, length = 20)
     private String immatriculation;
+
+    @Column(nullable = false, length = 50)
     private String marque;
+
+    @Column(nullable = false, length = 50)
     private String modele;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 20)
     private CategorieVehicule categorie;
 
+    @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal tarifJournalier;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 20)
     private StatutVehicule statut;
 
-    @ManyToOne
-    @JoinColumn(name = "agence_id")
+    @ManyToOne(fetch = FetchType.LAZY)
     private Agence agence;
 
-    @OneToMany(mappedBy = "vehicule", cascade = CascadeType.ALL)
-    @ToString.Exclude
-    private List<Maintenance> maintenances;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "vehicule_equipement")
+    private Set<Equipement> equipements = new HashSet<>();
 
-    @ManyToMany
-    @JoinTable(
-        name = "vehicule_equipement",
-        joinColumns = @JoinColumn(name = "vehicule_id"),
-        inverseJoinColumns = @JoinColumn(name = "equipement_id")
-    )
-    @ToString.Exclude
-    private List<Equipement> equipements;
+    @OneToMany(mappedBy = "vehicule", fetch = FetchType.LAZY)
+    private List<Reservation> reservations = new ArrayList<>();
 
-    @OneToMany(mappedBy = "vehicule", cascade = CascadeType.ALL)
-    @ToString.Exclude
-    private List<Reservation> reservations;
+    @OneToMany(mappedBy = "vehicule", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    private List<Maintenance> maintenances = new ArrayList<>();
 }

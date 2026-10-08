@@ -1,26 +1,33 @@
 package tn.esprit.youssefnajjar4cce10.domain;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
-@Data
+@Table(name = "employe")
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class Employe {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idEmploye;
 
+    @Column(nullable = false, length = 50)
     private String nom;
+
+    @Column(nullable = false, length = 50)
     private String prenom;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 20)
     private RoleEmploye role;
 
-    @ManyToOne
-    @JoinColumn(name = "agence_id")
+    @ManyToOne(fetch = FetchType.LAZY)
     private Agence agence;
 }

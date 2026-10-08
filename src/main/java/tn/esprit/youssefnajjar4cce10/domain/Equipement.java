@@ -1,24 +1,28 @@
 package tn.esprit.youssefnajjar4cce10.domain;
 
 import jakarta.persistence.*;
-import lombok.*;
-
-import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import java.util.Set;
+import java.util.HashSet;
 
 @Entity
-@Data
+@Table(name = "equipement")
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class Equipement {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idEquipement;
 
+    @Column(nullable = false, length = 100)
     private String libelle;
 
-    @ManyToMany(mappedBy = "equipements")
-    @ToString.Exclude
-    private List<Vehicule> vehicules;
+    @ManyToMany(mappedBy = "equipements", fetch = FetchType.LAZY)
+    private Set<Vehicule> vehicules = new HashSet<>();
 }

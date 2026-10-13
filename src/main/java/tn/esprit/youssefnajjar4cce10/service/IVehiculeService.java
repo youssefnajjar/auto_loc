@@ -4,15 +4,10 @@ import tn.esprit.youssefnajjar4cce10.domain.Vehicule;
 
 import java.util.List;
 
-public interface IVehiculeServices {
-
+public interface IVehiculeService {
     Vehicule create(Vehicule vehicule);
-
-    Vehicule findById(long id);
-
+    Vehicule findById(Long id);
     List<Vehicule> findAll();
-
-    void deleteById(long id);
-
-    Vehicule update(Vehicule vehicule);
+    Vehicule update(Long id, Vehicule vehicule);
+    void deleteById(Long id);
 }
